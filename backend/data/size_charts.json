@@ -1,0 +1,13 @@
+{
+  "brand_acme": {
+    "S": {
+      "chest_cm": 80
+    },
+    "M": {
+      "chest_cm": 95
+    },
+    "L": {
+      "chest_cm": 105
+    }
+  }
+}

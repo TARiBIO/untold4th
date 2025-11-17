@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pillow
+pillow-heif
+numpy
+opencv-python
+aiofiles
+pydantic

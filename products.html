@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Untold 4th — Collections</title>
+
+</head>
+<!-- Styles -->
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  body, button, a {
+    cursor: url('assets/cursor.svg') 8 8,
+            url('assets/cursor.png') 8 8,
+            pointer;
+  }
+</style>
+</head>
+
+<body data-theme="default">
+
+<header id="site-header" style="position: relative; width: 100%; z-index: 10;">
+  <div class="container header-row">
+    <a class="logo" href="index.html">
+      <img src="your-logo.png" alt="Untold 4th logo">
+    </a>
+    <div class="controls">
+      <button class="icon-btn" id="cartBtn">
+        <i class="fas fa-shopping-bag"></i>
+        <span id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section id="products" class="section" style="margin-top: 0;">
+  <div class="container">
+    <h2 class="section-title">Collections</h2>
+    <div class="products-grid" id="productsGrid">
+
+      <!-- Product 1 -->
+      <div class="card" onclick="window.location='preview.html?id=product1'" data-id="product1" data-name="Minimal Black Tee" data-price="50" data-img="assets/marianne-bos-WV6hCFDT9Rg-unsplash.jpg">
+        <div class="img-wrap">
+          <img src="assets/marianne-bos-WV6hCFDT9Rg-unsplash.jpg" alt="Minimal Black Tee">
+        </div>
+        <div class="info">
+          <h4>Minimal Black Tee</h4>
+          <p>$50</p>
+          <button class="btn addCartBtn" onclick="event.stopPropagation()">Add to Cart</button>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="card" onclick="window.location='preview.html?id=product2'" data-id="product2" data-name="Stone Hoodie" data-price="90" data-img="assets/ricardo-lopez-nebjAZknedw-unsplash.jpg">
+        <div class="img-wrap">
+          <img src="assets/ricardo-lopez-nebjAZknedw-unsplash.jpg" alt="Stone Hoodie">
+        </div>
+        <div class="info">
+          <h4>Stone Hoodie</h4>
+          <p>$90</p>
+          <button class="btn addCartBtn" onclick="event.stopPropagation()">Add to Cart</button>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="card" onclick="window.location='preview.html?id=product3'" data-id="product3" data-name="Stone Joggers" data-price="120" data-img="assets/marcel-eberle-FGYv8CDQBmg-unsplash.jpg">
+        <div class="img-wrap">
+          <img src="assets/marcel-eberle-FGYv8CDQBmg-unsplash.jpg" alt="Stone Joggers">
+        </div>
+        <div class="info">
+          <h4>Stone Joggers</h4>
+          <p>$120</p>
+          <button class="btn addCartBtn" onclick="event.stopPropagation()">Add to Cart</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 🛍️ CART PANEL + OVERLAY -->
+<div id="cartOverlay" class="cart-overlay"></div>
+<aside id="cartPanel" class="cart-panel" aria-hidden="true">
+  <div class="cart-header">
+    <strong>Your Bag</strong>
+    <button class="close-cart icon-btn" aria-label="Close cart"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="cartList">
+    <div class="empty">Your bag is empty.</div>
+  </div>
+  <div class="cart-footer">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+      <div style="color:var(--muted)">Subtotal</div>
+      <div id="cartSubtotal" style="font-weight:700">$0.00</div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:10px">
+      <button class="btn" id="checkoutBtn">Checkout</button>
+      <button class="btn secondary" id="clearCartBtn">Clear</button>
+    </div>
+  </div>
+</aside>
+
+<footer id="contact">
+  <div class="container" style="text-align:center">
+    <h3>UNTOLD 4TH</h3>
+    <p>Minimal Luxury Essentials</p>
+    <div class="social-icons">
+  <a href="https://www.instagram.com/untold.4th?utm_source=qr" target="_blank" rel="noopener noreferrer">
+    <i class="fab fa-instagram"></i>
+  </a>
+  <a href="https://www.tiktok.com/@untold4th?_r=1&_d=el63e7bh522l7h&sec_uid=MS4wLjABAAAAiqATrvpZiadKY0aL39OLREsmZTpg-l4SqKjnkSWTRxI4kN0oassRvQkwDyzTpsLj&share_author_id=7564321334269543442&sharer_language=en&source=h5_m&u_code=f03m38i9l6gb97&item_author_type=1&utm_source=copy&tt_from=copy&enable_checksum=1&utm_medium=ios&share_link_id=72FE4D2A-D080-41D4-AB2A-4D1854828831&user_id=7564321334269543442&sec_user_id=MS4wLjABAAAAiqATrvpZiadKY0aL39OLREsmZTpg-l4SqKjnkSWTRxI4kN0oassRvQkwDyzTpsLj&social_share_type=5&ug_btm=b8727,b0&utm_campaign=client_share&share_app_id=1233" target="_blank" rel="noopener noreferrer">
+    <i class="fab fa-tiktok"></i>
+  </a>
+  <a href="https://x.com/untold4th?s=21&t=tu-94LFn1nKGhyhK2_nxjA" target="_blank" rel="noopener noreferrer">
+  <i class="fa-brands fa-x-twitter"></i>
+</a>
+    </div>
+    <p style="margin-top:18px;color:var(--muted);font-size:13px">
+      © 2025 Untold 4th — All rights reserved
+    </p>
+  </div>
+</footer>
+
+<script src="js/scripts.js" defer></script>
+</body>
+</html>
