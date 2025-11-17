@@ -36,6 +36,11 @@ app.add_middleware(
 )
 
 
+@app.get("/")
+def root():
+    return {"status": "ok", "message": "Untold 4th backend is running"}
+
+
 @app.post("/estimate")
 async def estimate(file: UploadFile = File(...), user_height_cm: int = Form(None)):
     import shutil
