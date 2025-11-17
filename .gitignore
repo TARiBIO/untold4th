@@ -1,0 +1,27 @@
+# Ignore macOS files
+.DS_Store
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore backend cache
+backend/__pycache__/
+
+# Ignore uploaded user images (VERY IMPORTANT)
+backend/uploads/*
+
+# Ignore environment files
+.env
+.venv/
+env/
+
+# Ignore local runtime and logs
+*.log
+
+# Ignore node modules (if ever used later)
+node_modules/
+
+# Ignore build artifacts
+dist/
+build/
