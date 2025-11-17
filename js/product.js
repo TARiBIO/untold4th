@@ -141,6 +141,38 @@ document.addEventListener('DOMContentLoaded', () => {
       .join('<br>');
   }
 
+  async function maybeConvertHeic(file) {
+    if (!file) return null;
+    const lower = file.name.toLowerCase();
+    if (!(lower.endsWith('.heic') || lower.endsWith('.heif'))) {
+      return file;
+    }
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob(blob => {
+            if (!blob) {
+              reject(new Error('Failed to convert HEIC to JPEG.'));
+              return;
+            }
+            resolve(new File([blob], file.name.replace(/\.(heic|heif)$/i, '.jpg'), { type: 'image/jpeg' }));
+          }, 'image/jpeg', 0.92);
+        };
+        img.onerror = () => reject(new Error('Invalid HEIC image data.'));
+        img.src = e.target.result;
+      };
+      reader.onerror = () => reject(new Error('Unable to read HEIC file.'));
+      reader.readAsDataURL(file);
+    });
+  }
+
   async function submitAiAssist(event) {
     event.preventDefault();
     if (!selectedAiMode) {
@@ -166,7 +198,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const formData = new FormData();
     formData.append('mode', selectedAiMode);
     formData.append('product_id', productId);
-    if (needsUpload && photoFile) formData.append('file', photoFile);
+    let uploadFile = photoFile;
+    if (needsUpload && uploadFile) {
+      try {
+        uploadFile = await maybeConvertHeic(uploadFile);
+      } catch (conversionErr) {
+        console.error(conversionErr);
+        setAiStatus(conversionErr.message || 'Unable to convert HEIC file.');
+        return;
+      }
+      formData.append('file', uploadFile);
+    }
     if (needsMetrics) {
       formData.append('height_cm', heightValue.toString());
       formData.append('weight_kg', weightValue.toString());
