@@ -4,7 +4,10 @@ import cv2
 import numpy as np
 
 DEFAULT_EST_HEIGHT_CM = 170.0
-DEFAULT_SHOULDER_CM = 42.0
+DEFAULT_SHOULDER_TO_HEIGHT_RATIO = 0.25  # Average human shoulder width ≈ 25% of height
+PHOTO_WIDTH_TO_CM_MULTIPLIER = 2.6
+EXPECTED_HEIGHT_TO_SHOULDER_RATIO = 3.2  # Typical human height is ~3.2x shoulder width
+RELIABLE_HEIGHT_PX = 350.0  # Below this, assume the photo is cropped and height-based scaling is noisy.
 
 def _euclidean_pts(p1, p2):
     return math.hypot(p2[0] - p1[0], p2[1] - p1[1])
@@ -48,22 +51,48 @@ def estimate_measurements(image_path: str, height_cm: int = None, weight_kg: int
     height_px = h
 
     # Convert pixels to cm. Use/default height to keep values person-specific
-    px_to_cm_shoulder = DEFAULT_SHOULDER_CM / shoulder_width_px if shoulder_width_px else 0
     baseline_height_cm = float(height_cm) if height_cm else DEFAULT_EST_HEIGHT_CM
-    px_to_cm_height = baseline_height_cm / float(height_px)
+    expected_shoulder_cm = baseline_height_cm * DEFAULT_SHOULDER_TO_HEIGHT_RATIO
+    px_to_cm_shoulder = expected_shoulder_cm / shoulder_width_px if shoulder_width_px else 0.0
+    effective_height_px = float(height_px)
+    if shoulder_width_px:
+        expected_height_px = shoulder_width_px * EXPECTED_HEIGHT_TO_SHOULDER_RATIO
+        effective_height_px = max(effective_height_px, expected_height_px)
+    px_to_cm_height = baseline_height_cm / effective_height_px if effective_height_px else 0.0
+
+    def _weighted_px_to_cm(base_height_bias: float):
+        """
+        Blend height-based scaling with shoulder-based scaling. When the detected silhouette
+        height is very small (cropped torso shot), height_px is unreliable so we lean harder
+        on the shoulder heuristic to keep measurements realistic.
+        """
+        if not effective_height_px:
+            height_quality = 0.0
+        else:
+            height_quality = min(1.0, max(0.0, float(effective_height_px) / RELIABLE_HEIGHT_PX))
+        height_weight = base_height_bias * height_quality
+        shoulder_weight = max(0.0, 1.0 - height_weight)
+        blended = (px_to_cm_height * height_weight) + (px_to_cm_shoulder * shoulder_weight)
+        if blended == 0.0:
+            return px_to_cm_height or px_to_cm_shoulder
+        return blended
 
     if height_cm:
-        px_to_cm = 0.6 * px_to_cm_height + 0.4 * px_to_cm_shoulder
+        px_to_cm = _weighted_px_to_cm(0.6)
         est_height_cm = float(height_cm)
     else:
-        # Without explicit height, rely mostly on silhouette height so results vary per photo
-        px_to_cm = 0.85 * px_to_cm_height + 0.15 * px_to_cm_shoulder
+        # Without explicit height, rely mostly on silhouette height so results vary per photo.
+        px_to_cm = _weighted_px_to_cm(0.85)
         est_height_cm = baseline_height_cm
 
     shoulder_cm = shoulder_width_px * px_to_cm
-    chest_cm = chest_width_px * px_to_cm
-    seat_cm = seat_width_px * px_to_cm
-    waist_cm = seat_cm * 0.85
+    chest_width_cm = chest_width_px * px_to_cm
+    seat_width_cm = seat_width_px * px_to_cm
+    waist_width_cm = seat_width_cm * 0.85
+
+    chest_cm = chest_width_cm * PHOTO_WIDTH_TO_CM_MULTIPLIER
+    waist_cm = waist_width_cm * PHOTO_WIDTH_TO_CM_MULTIPLIER
+    seat_cm = seat_width_cm * PHOTO_WIDTH_TO_CM_MULTIPLIER
 
     return {
         "height_px": float(height_px),
