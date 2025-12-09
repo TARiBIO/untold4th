@@ -42,8 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const aiOptionButtons = Array.from(document.querySelectorAll('.ai-options button'));
   const aiAssistForm = document.getElementById('aiAssistForm');
   const aiPhotoInput = document.getElementById('aiPhotoInput');
+  const aiFileName = document.getElementById('aiFileName');
   const aiHeightInput = document.getElementById('aiHeightInput');
   const aiWeightInput = document.getElementById('aiWeightInput');
+  const aiPhotoPreview = document.getElementById('aiPhotoPreview');
   const aiStatusEl = document.getElementById('aiStatus');
   const aiUploadField = document.getElementById('aiUploadField');
   const aiHeightField = document.getElementById('aiHeightField');
@@ -97,6 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (aiResultEl) aiResultEl.textContent = 'Pick an option to get a tailored recommendation.';
     if (aiStatusEl) aiStatusEl.textContent = '';
     if (aiAssistForm) aiAssistForm.reset();
+    if (aiPhotoPreview) {
+      aiPhotoPreview.src = '';
+      aiPhotoPreview.classList.add('hidden');
+    }
+    if (aiFileName) aiFileName.textContent = 'No file chosen';
     openAiModal();
   }
 
@@ -225,6 +232,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       formData.append('file', uploadFile);
     }
+    if (needsUpload && uploadFile && aiPhotoPreview) {
+      aiPhotoPreview.src = URL.createObjectURL(uploadFile);
+      aiPhotoPreview.classList.remove('hidden');
+    }
+    if (needsUpload && uploadFile && aiFileName) {
+      aiFileName.textContent = uploadFile.name;
+    }
     if (needsHeight && heightValue) {
       formData.append('height_cm', heightValue.toString());
     }
@@ -270,6 +284,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (closeAiModalBtn) closeAiModalBtn.addEventListener('click', closeAiModal);
   if (aiOverlay) aiOverlay.addEventListener('click', closeAiModal);
+  if (aiPhotoInput) {
+    aiPhotoInput.addEventListener('change', () => {
+      const file = aiPhotoInput.files && aiPhotoInput.files[0];
+      if (file) {
+        if (aiPhotoPreview) {
+          aiPhotoPreview.src = URL.createObjectURL(file);
+          aiPhotoPreview.classList.remove('hidden');
+        }
+        if (aiFileName) {
+          aiFileName.textContent = file.name;
+        }
+      } else {
+        if (aiPhotoPreview) {
+          aiPhotoPreview.src = '';
+          aiPhotoPreview.classList.add('hidden');
+        }
+        if (aiFileName) aiFileName.textContent = 'No file chosen';
+      }
+    });
+  }
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeAiModal();
   });

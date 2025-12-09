@@ -134,7 +134,8 @@
   }
   .ai-form input[type="file"]::file-selector-button,
   .ai-form input[type="file"]::-webkit-file-upload-button {
-    width: 100%;
+    width: 50%;
+    min-width: 50%;
     border: none;
     border-radius: 10px;
     padding: 12px 16px;
@@ -156,6 +157,28 @@
     font-size: 13px;
     color: #3f3529;
     margin-top: 8px;
+  }
+  #aiPhotoInput {
+    color: transparent; /* hide native filename so our label shows clearly */
+  }
+  .ai-upload-row {
+    display: block;
+  }
+  .ai-photo-preview {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    display: block;
+  }
+  .ai-photo-preview.hidden {
+    display: none;
+  }
+  .ai-file-name {
+    font-size: 13px;
+    color: #000;
+    font-weight: 700;
   }
 </style>
 <script>
@@ -245,7 +268,10 @@
   <form id="aiAssistForm" class="ai-form hidden">
     <div class="ai-field hidden" id="aiUploadField">
       <label for="aiPhotoInput">Upload Reference Photo</label>
-      <input type="file" id="aiPhotoInput" accept="image/*">
+      <div class="ai-upload-row">
+        <input type="file" id="aiPhotoInput" accept="image/*">
+        <span id="aiFileName" class="ai-file-name">No file chosen</span>
+      </div>
     </div>
     <div class="ai-field hidden" id="aiHeightField">
       <label for="aiHeightInput">Height (cm)</label>

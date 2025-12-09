@@ -6,10 +6,17 @@ TEE_MIN_BLACK,Minimal Black Tee,men,tshirt,true_to_size,L,112,,,,48,22.5,73.5,,R
 TEE_MIN_BLACK,Minimal Black Tee,men,tshirt,true_to_size,XL,120,,,,50,24,75,,Regular slim tee,
 TEE_MIN_BLACK,Minimal Black Tee,men,tshirt,true_to_size,XXL,128,,,,52,25.4,76.5,,Regular slim tee,
 TEE_MIN_BLACK,Minimal Black Tee,men,tshirt,true_to_size,XXXL,136,,,,54,26.4,79,,Regular slim tee,
-HOODIE_CORE_GREY,Core Grey Hoodie,unisex,hoodie,oversized,S,100,96,80,94,45,22,70,,Oversized, drop-shoulder
-HOODIE_CORE_GREY,Core Grey Hoodie,unisex,hoodie,oversized,M,108,102,86,100,47,23,72,,Oversized, drop-shoulder
-JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,26,,86,68,92,,,96,72,Skinny fit,
-JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,28,,90,72,96,,,98,74,Skinny fit,
+HOODIE_CORE_GREY,Core Grey Hoodie,unisex,hoodie,oversized,S,99,,,,43.4,18.8,71,,Oversized, drop-shoulder
+HOODIE_CORE_GREY,Core Grey Hoodie,unisex,hoodie,oversized,M,104,,,,44.7,20,72,,Oversized, drop-shoulder
+HOODIE_CORE_GREY,Core Grey Hoodie,unisex,hoodie,oversized,L,112,,,,46,21,73.5,,Oversized, drop-shoulder
+HOODIE_CORE_GREY,Core Grey Hoodie,unisex,hoodie,oversized,XL,120,,,,48,22.5,75,,Oversized, drop-shoulder
+HOODIE_CORE_GREY,Core Grey Hoodie,unisex,hoodie,oversized,XXL,128,,,,50,25.4,76.5,,Oversized, drop-shoulder
+JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 38,,,40,52,,,105,72,Regular fit,
+JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 40,,,42,54,,,105.5,74,Regular fit,
+JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 42,,,44,56,,,106,75,Regular fit,
+JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 44,,,46,58,,,106.5,76,Regular fit,
+JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 46,,,48,60,,,107,77,Regular fit,
+JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 48,,,50,62,,,107.5,78,Regular fit,
 DRESS_SUMMER_FLORAL,Summer Floral Dress,women,dress,true_to_size,XS,,86-91,71,86,,,89,,Above-knee dress,
 DRESS_SUMMER_FLORAL,Summer Floral Dress,women,dress,true_to_size,S,,91-97,76,91,,,90,,Above-knee dress,
 DRESS_SUMMER_FLORAL,Summer Floral Dress,women,dress,true_to_size,M,,97-102,81,97,,,92,,Above-knee dress,

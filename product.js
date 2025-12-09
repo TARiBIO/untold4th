@@ -143,6 +143,8 @@ function addToCart() {
   const heightField = document.getElementById('aiHeightField');
   const weightField = document.getElementById('aiWeightField');
   const photoInput = document.getElementById('aiPhotoInput');
+  const photoPreview = document.getElementById('aiPhotoPreview');
+  const photoNameEl = document.getElementById('aiFileName');
   const heightInput = document.getElementById('aiHeightInput');
   const weightInput = document.getElementById('aiWeightInput');
   const statusEl = document.getElementById('aiStatus');
@@ -171,6 +173,13 @@ function addToCart() {
     if (heightField) heightField.classList.add('hidden');
     if (weightField) weightField.classList.add('hidden');
     if (photoInput) photoInput.value = '';
+    if (photoPreview) {
+      photoPreview.src = '';
+      photoPreview.classList.add('hidden');
+    }
+    if (photoNameEl) {
+      photoNameEl.textContent = 'No file chosen';
+    }
     if (heightInput) heightInput.value = '';
     if (weightInput) weightInput.value = '';
   }
@@ -185,6 +194,28 @@ function addToCart() {
   }
   if (closeBtn) {
     closeBtn.addEventListener('click', closeModal);
+  }
+  if (photoInput) {
+    photoInput.addEventListener('change', () => {
+      const file = photoInput.files && photoInput.files[0];
+      if (file) {
+        if (photoPreview) {
+          photoPreview.src = URL.createObjectURL(file);
+          photoPreview.classList.remove('hidden');
+        }
+        if (photoNameEl) {
+          photoNameEl.textContent = file.name;
+        }
+      } else {
+        if (photoPreview) {
+          photoPreview.src = '';
+          photoPreview.classList.add('hidden');
+        }
+        if (photoNameEl) {
+          photoNameEl.textContent = 'No file chosen';
+        }
+      }
+    });
   }
 
   // Handle mode selection buttons (upload / metrics / both)
@@ -259,6 +290,13 @@ function addToCart() {
         if (statusEl) statusEl.textContent = 'Select a reference photo.';
         return;
       }
+      if (photoPreview) {
+        photoPreview.src = URL.createObjectURL(file);
+        photoPreview.classList.remove('hidden');
+      }
+       if (photoNameEl) {
+         photoNameEl.textContent = file.name;
+       }
       formData.append('file', file);
     }
 
