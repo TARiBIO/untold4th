@@ -58,6 +58,10 @@
   </div>
 </footer>
 
-<script src="script.js" defer></script>
+<script>
+  // Some browsers/extensions expect this hook; keep it a no-op to avoid console errors.
+  window.solveSimpleChallenge = window.solveSimpleChallenge || function () {};
+</script>
+<script src="js/scripts.js" defer></script>
 </body>
 </html>

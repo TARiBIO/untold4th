@@ -4,19 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const PRODUCTS = {
     product1: {
-      name: 'Minimal Black Tee',
+      name: 'Minimal White Tee',
       price: 50,
-      img: 'assets/marianne-bos-WV6hCFDT9Rg-unsplash.jpg'
+      img: 'assets/image-web-a3d92171-6f04-49c0-ba62-4087113390f6-default 2.jpg'
     },
     product2: {
       name: 'Stone Hoodie',
       price: 90,
-      img: 'assets/ricardo-lopez-nebjAZknedw-unsplash.jpg'
+      img: 'assets/04729300505-e1.jpg'
     },
     product3: {
-      name: 'Stone Joggers',
+      name: 'Stone Jeans',
       price: 120,
-      img: 'assets/marcel-eberle-FGYv8CDQBmg-unsplash.jpg'
+      img: 'assets/01300355401-a1.jpg'
+    },
+    product4: {
+      name: 'Summer Floral Dress',
+      price: 140,
+      img: 'assets/09077198800-e1.jpg'
     }
   };
 
@@ -41,7 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const aiWeightInput = document.getElementById('aiWeightInput');
   const aiStatusEl = document.getElementById('aiStatus');
   const aiUploadField = document.getElementById('aiUploadField');
-  const aiMetricsField = document.getElementById('aiMetricsField');
+  const aiHeightField = document.getElementById('aiHeightField');
+  const aiWeightField = document.getElementById('aiWeightField');
 
   if (productNameEl) productNameEl.textContent = product.name;
   if (productPriceEl) productPriceEl.textContent = `$${product.price}`;
@@ -52,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let selectedAiMode = null;
   let aiBusy = false;
   const backendBase = window.AI_BACKEND_URL || window.BACKEND_BASE_URL || 'http://localhost:8000';
+  const apiKey = window.AI_API_KEY || window.AI_BACKEND_API_KEY || '';
 
   function selectSize(size) {
     if (!size) return;
@@ -96,20 +103,23 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateAiFields() {
     const hasMode = Boolean(selectedAiMode);
     const needsUpload = selectedAiMode === 'upload' || selectedAiMode === 'both';
-    const needsMetrics = selectedAiMode === 'metrics' || selectedAiMode === 'both';
+    const needsHeight =
+      selectedAiMode === 'upload' || selectedAiMode === 'metrics' || selectedAiMode === 'both';
+    const needsWeight = selectedAiMode === 'metrics' || selectedAiMode === 'both';
     if (aiAssistForm) aiAssistForm.classList.toggle('hidden', !hasMode);
     if (aiUploadField) aiUploadField.classList.toggle('hidden', !needsUpload);
-    if (aiMetricsField) aiMetricsField.classList.toggle('hidden', !needsMetrics);
+    if (aiHeightField) aiHeightField.classList.toggle('hidden', !needsHeight);
+    if (aiWeightField) aiWeightField.classList.toggle('hidden', !needsWeight);
   }
 
   function describeMode(mode) {
     switch (mode) {
       case 'upload':
-        return 'Upload a photo so we can gauge proportions.';
+        return 'Upload a photo and include your height for a precise match.';
       case 'metrics':
         return 'Provide height and weight for a quick estimate.';
       case 'both':
-        return 'Combine photo + metrics for the most accurate result.';
+        return 'Upload a photo plus height and weight for the highest accuracy.';
       default:
         return 'Pick an option to continue.';
     }
@@ -181,7 +191,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (aiBusy) return;
     const needsUpload = selectedAiMode === 'upload' || selectedAiMode === 'both';
-    const needsMetrics = selectedAiMode === 'metrics' || selectedAiMode === 'both';
+    const needsHeight =
+      selectedAiMode === 'upload' || selectedAiMode === 'metrics' || selectedAiMode === 'both';
+    const needsWeight = selectedAiMode === 'metrics' || selectedAiMode === 'both';
     const photoFile = aiPhotoInput?.files?.[0];
     const heightValue = aiHeightInput ? parseInt(aiHeightInput.value, 10) : null;
     const weightValue = aiWeightInput ? parseInt(aiWeightInput.value, 10) : null;
@@ -190,8 +202,12 @@ document.addEventListener('DOMContentLoaded', () => {
       setAiStatus('Please upload a reference photo.');
       return;
     }
-    if (needsMetrics && (!heightValue || !weightValue)) {
-      setAiStatus('Please enter both height and weight.');
+    if (needsHeight && !heightValue) {
+      setAiStatus('Please enter your height.');
+      return;
+    }
+    if (needsWeight && !weightValue) {
+      setAiStatus('Please enter your weight.');
       return;
     }
 
@@ -209,8 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       formData.append('file', uploadFile);
     }
-    if (needsMetrics) {
+    if (needsHeight && heightValue) {
       formData.append('height_cm', heightValue.toString());
+    }
+    if (needsWeight && weightValue) {
       formData.append('weight_kg', weightValue.toString());
     }
 
@@ -219,6 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch(`${backendBase}/fit-assist`, {
         method: 'POST',
+        headers: apiKey ? { 'x-api-key': apiKey } : undefined,
         body: formData
       });
       const payload = await response.json();

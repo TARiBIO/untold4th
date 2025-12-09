@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "Untold 4th - AI Sizing Assistant",
+    "_postman_id": "e8c9f0f4-0000-0000-0000-untold4th",
+    "description": "Requests for testing the Untold 4th AI clothing assistant.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Estimate with Photo + Metrics",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": ""
+            },
+            {
+              "key": "user_height_cm",
+              "value": "180",
+              "type": "text"
+            },
+            {
+              "key": "user_weight_kg",
+              "value": "75",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/estimate",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "estimate"
+          ]
+        },
+        "description": "Upload a customer photo + height/weight to get a size recommendation. Adjust field names if your backend uses slightly different ones."
+      },
+      "response": []
+    },
+    {
+      "name": "Estimate with Metrics Only",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "user_height_cm",
+              "value": "180",
+              "type": "text"
+            },
+            {
+              "key": "user_weight_kg",
+              "value": "75",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/estimate",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "estimate"
+          ]
+        },
+        "description": "Use only height/weight (no photo) to get a size recommendation."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://untold4th-backend.onrender.com"
+    },
+    {
+      "key": "api_key",
+      "value": "REPLACE-WITH-YOUR-BRAND-KEY"
+    }
+  ]
+}

@@ -235,19 +235,21 @@
   <h3 id="aiModalTitle" style="color:grey">AI Fit Assist</h3>
   <p id="aiModalDesc" style="color:grey">Tell us how you want to find your fit.</p>
   <div class="ai-options">
-    <button type="button" data-mode="upload">Option A — Upload Photo</button>
+    <button type="button" data-mode="upload">Option A — Upload Photo + Height</button>
     <button type="button" data-mode="metrics">Option B — Height / Weight</button>
     <button type="button" data-mode="both">Option C — Both</button>
   </div>
   <div class="ai-result" id="aiResult" style="color:grey">Pick an option to get a tailored recommendation.</div>
   <form id="aiAssistForm" class="ai-form hidden">
-    <div class="ai-field hidden" data-requires="upload both" id="aiUploadField">
+    <div class="ai-field hidden" id="aiUploadField">
       <label for="aiPhotoInput">Upload Reference Photo</label>
       <input type="file" id="aiPhotoInput" accept="image/*">
     </div>
-    <div class="ai-field hidden" data-requires="metrics both" id="aiMetricsField">
+    <div class="ai-field hidden" id="aiHeightField">
       <label for="aiHeightInput">Height (cm)</label>
       <input type="number" id="aiHeightInput" min="120" max="220" step="1" placeholder="e.g. 178">
+    </div>
+    <div class="ai-field hidden" id="aiWeightField">
       <label for="aiWeightInput" style="margin-top:8px">Weight (kg)</label>
       <input type="number" id="aiWeightInput" min="40" max="150" step="1" placeholder="e.g. 75">
     </div>

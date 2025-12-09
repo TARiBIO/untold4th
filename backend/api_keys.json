@@ -1,0 +1,14 @@
+{
+  "Brand A": {
+    "key": "UN4TH-TEST-A1-BETA",
+    "active": true
+  },
+  "Brand B": {
+    "key": "UN4TH-TEST-B2-BETA",
+    "active": true
+  },
+  "Brand C": {
+    "key": "UN4TH-TEST-C3-BETA",
+    "active": true
+  }
+}

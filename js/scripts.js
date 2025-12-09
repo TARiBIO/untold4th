@@ -1,4 +1,6 @@
-const API_BASE = "https://untold4th-backend.onrender.com";
+(() => {
+const API_BASE = window.AI_BACKEND_URL || "https://untold4th-backend.onrender.com";
+const API_KEY = window.AI_API_KEY || window.AI_BACKEND_API_KEY || "";
 
 document.addEventListener('DOMContentLoaded', () => {
   initHeaderShrink();
@@ -7,7 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initProductActions(cartSystem);
 
   // Wake backend to avoid "Network Error" on first AI assist click
-  fetch(`${API_BASE}/ping`, { method: 'GET' }).catch(() => {});
+  fetch(`${API_BASE}/ping`, {
+    method: 'GET',
+    headers: API_KEY ? { 'x-api-key': API_KEY } : undefined,
+  }).catch(() => {});
 });
 
 /* ===========================
@@ -188,3 +193,5 @@ function initProductActions(cartSystem) {
     });
   });
 }
+
+})();

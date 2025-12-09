@@ -1,22 +1,28 @@
 const params = new URLSearchParams(window.location.search);
 const API_BASE = window.AI_BACKEND_URL || 'http://127.0.0.1:8000';
+const API_KEY = window.AI_API_KEY || window.AI_BACKEND_API_KEY || '';
 const productId = params.get('id');
 
 const PRODUCTS = {
   product1: {
-    name: 'Minimal Black Tee',
+    name: 'Minimal White Tee',
     price: 50,
-    img: 'assets/marianne-bos-WV6hCFDT9Rg-unsplash.jpg'
+    img: 'assets/image-web-a3d92171-6f04-49c0-ba62-4087113390f6-default 2.jpg'
   },
   product2: {
     name: 'Stone Hoodie',
     price: 90,
-    img: 'assets/ricardo-lopez-nebjAZknedw-unsplash.jpg'
+    img: 'assets/04729300505-e1.jpg'
   },
   product3: {
-    name: 'Stone Joggers',
+    name: 'Stone Jeans',
     price: 120,
-    img: 'assets/marcel-eberle-FGYv8CDQBmg-unsplash.jpg'
+    img: 'assets/01300355401-a1.jpg'
+  },
+  product4: {
+    name: 'Summer Floral Dress',
+    price: 140,
+    img: 'assets/09077198800-e1.jpg'
   }
 };
 
@@ -134,7 +140,8 @@ function addToCart() {
   const optionsContainer = modal ? modal.querySelector('.ai-options') : null;
   const form = document.getElementById('aiAssistForm');
   const uploadField = document.getElementById('aiUploadField');
-  const metricsField = document.getElementById('aiMetricsField');
+  const heightField = document.getElementById('aiHeightField');
+  const weightField = document.getElementById('aiWeightField');
   const photoInput = document.getElementById('aiPhotoInput');
   const heightInput = document.getElementById('aiHeightInput');
   const weightInput = document.getElementById('aiWeightInput');
@@ -161,7 +168,8 @@ function addToCart() {
     if (resultEl) resultEl.textContent = 'Pick an option to get a tailored recommendation.';
     if (form) form.classList.add('hidden');
     if (uploadField) uploadField.classList.add('hidden');
-    if (metricsField) metricsField.classList.add('hidden');
+    if (heightField) heightField.classList.add('hidden');
+    if (weightField) weightField.classList.add('hidden');
     if (photoInput) photoInput.value = '';
     if (heightInput) heightInput.value = '';
     if (weightInput) weightInput.value = '';
@@ -190,13 +198,18 @@ function addToCart() {
     form.classList.remove('hidden');
 
     // Toggle fields based on mode
+    const needsUpload = selectedMode === 'upload' || selectedMode === 'both';
+    const needsHeight =
+      selectedMode === 'upload' || selectedMode === 'metrics' || selectedMode === 'both';
+    const needsWeight = selectedMode === 'metrics' || selectedMode === 'both';
     if (uploadField) {
-      const needsUpload = selectedMode === 'upload' || selectedMode === 'both';
       uploadField.classList.toggle('hidden', !needsUpload);
     }
-    if (metricsField) {
-      const needsMetrics = selectedMode === 'metrics' || selectedMode === 'both';
-      metricsField.classList.toggle('hidden', !needsMetrics);
+    if (heightField) {
+      heightField.classList.toggle('hidden', !needsHeight);
+    }
+    if (weightField) {
+      weightField.classList.toggle('hidden', !needsWeight);
     }
 
     if (resultEl) {
@@ -216,20 +229,31 @@ function addToCart() {
     formData.append('mode', selectedMode);
     formData.append('product_id', productId || 'product1');
 
-    // Metrics
-    if (selectedMode === 'metrics' || selectedMode === 'both') {
+    const requiresUpload = selectedMode === 'upload' || selectedMode === 'both';
+    const requiresHeight =
+      selectedMode === 'upload' || selectedMode === 'metrics' || selectedMode === 'both';
+    const requiresWeight = selectedMode === 'metrics' || selectedMode === 'both';
+
+    if (requiresHeight) {
       const h = heightInput ? heightInput.value.trim() : '';
-      const w = weightInput ? weightInput.value.trim() : '';
-      if (!h || !w) {
-        if (statusEl) statusEl.textContent = 'Enter height and weight.';
+      if (!h) {
+        if (statusEl) statusEl.textContent = 'Enter your height.';
         return;
       }
       formData.append('height_cm', h);
+    }
+
+    if (requiresWeight) {
+      const w = weightInput ? weightInput.value.trim() : '';
+      if (!w) {
+        if (statusEl) statusEl.textContent = 'Enter your weight.';
+        return;
+      }
       formData.append('weight_kg', w);
     }
 
     // Photo
-    if (selectedMode === 'upload' || selectedMode === 'both') {
+    if (requiresUpload) {
       const file = photoInput && photoInput.files && photoInput.files[0];
       if (!file) {
         if (statusEl) statusEl.textContent = 'Select a reference photo.';
@@ -245,6 +269,7 @@ function addToCart() {
     try {
       const res = await fetch(`${API_BASE}/fit-assist`, {
         method: 'POST',
+        headers: API_KEY ? { 'x-api-key': API_KEY } : undefined,
         body: formData
       });
 
