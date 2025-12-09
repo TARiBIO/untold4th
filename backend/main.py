@@ -1,5 +1,5 @@
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Request
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from collections import defaultdict, deque
 from functools import lru_cache
@@ -312,6 +312,11 @@ def root():
 @app.get("/ping")
 def ping():
     return {"status": "ok"}
+
+
+@app.head("/ping")
+def ping_head():
+    return Response(status_code=200)
 
 
 @app.post("/size-charts/upload-csv")
