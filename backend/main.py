@@ -150,7 +150,7 @@ def ease_factor_for_fit(fit_type: str) -> float:
         return 1.05
     if fit_type == "boxy":
         return 1.04
-    return 1.03
+    return 1.01
 
 
 def recommend_size_for_product(product_chart: dict, user_measurements: dict) -> dict:
