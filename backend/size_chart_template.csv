@@ -11,12 +11,12 @@ HOODIE_CORE_GREY,Core Grey Hoodie,unisex,hoodie,oversized,M,104,,,,44.7,20,72,,O
 HOODIE_CORE_GREY,Core Grey Hoodie,unisex,hoodie,oversized,L,112,,,,46,21,73.5,,Oversized, drop-shoulder
 HOODIE_CORE_GREY,Core Grey Hoodie,unisex,hoodie,oversized,XL,120,,,,48,22.5,75,,Oversized, drop-shoulder
 HOODIE_CORE_GREY,Core Grey Hoodie,unisex,hoodie,oversized,XXL,128,,,,50,25.4,76.5,,Oversized, drop-shoulder
-JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 38,,,40,52,,,105,72,Regular fit,
-JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 40,,,42,54,,,105.5,74,Regular fit,
-JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 42,,,44,56,,,106,75,Regular fit,
-JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 44,,,46,58,,,106.5,76,Regular fit,
-JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 46,,,48,60,,,107,77,Regular fit,
-JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 48,,,50,62,,,107.5,78,Regular fit,
+JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 38,,,76,92,,,102,78,Regular fit,
+JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 40,,,80,96,,,103,79,Regular fit,
+JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 42,,,84,100,,,104,80,Regular fit,
+JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 44,,,88,104,,,105,81,Regular fit,
+JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 46,,,92,108,,,106,82,Regular fit,
+JEAN_SKINNY_BLACK,Skinny Black Jeans,women,jeans,slim,EU 48,,,98,114,,,107,83,Regular fit,
 DRESS_SUMMER_FLORAL,Summer Floral Dress,women,dress,true_to_size,XS,,86-91,71,86,,,89,,Above-knee dress,
 DRESS_SUMMER_FLORAL,Summer Floral Dress,women,dress,true_to_size,S,,91-97,76,91,,,90,,Above-knee dress,
 DRESS_SUMMER_FLORAL,Summer Floral Dress,women,dress,true_to_size,M,,97-102,81,97,,,92,,Above-knee dress,

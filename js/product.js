@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const aiOverlay = document.getElementById('aiOverlay');
   const closeAiModalBtn = document.getElementById('closeAiModal');
   const aiResultEl = document.getElementById('aiResult');
-  const aiOptionButtons = Array.from(document.querySelectorAll('.ai-options button'));
+  let aiOptionButtons = Array.from(document.querySelectorAll('.ai-options button'));
   const aiAssistForm = document.getElementById('aiAssistForm');
   const aiPhotoInput = document.getElementById('aiPhotoInput');
   const aiFileName = document.getElementById('aiFileName');
@@ -61,6 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let aiBusy = false;
   const backendBase = window.AI_BACKEND_URL || window.BACKEND_BASE_URL || 'http://localhost:8000';
   const apiKey = window.AI_API_KEY || window.AI_BACKEND_API_KEY || '';
+
+  // Hide Option B (metrics-only) for jeans product3.
+  if (productId === 'product3') {
+    document.querySelectorAll('.ai-options button[data-mode="metrics"]').forEach(btn => btn.remove());
+    aiOptionButtons = aiOptionButtons.filter(btn => btn.dataset.mode !== 'metrics');
+  }
 
   function selectSize(size) {
     if (!size) return;
@@ -284,6 +290,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (closeAiModalBtn) closeAiModalBtn.addEventListener('click', closeAiModal);
   if (aiOverlay) aiOverlay.addEventListener('click', closeAiModal);
+  if (productId === 'product3') {
+    document.querySelectorAll('.ai-options button[data-mode="metrics"], .ai-options button[data-mode="both"]').forEach(btn => btn.remove());
+  }
   if (aiPhotoInput) {
     aiPhotoInput.addEventListener('change', () => {
       const file = aiPhotoInput.files && aiPhotoInput.files[0];

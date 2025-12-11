@@ -195,6 +195,9 @@ function addToCart() {
   if (closeBtn) {
     closeBtn.addEventListener('click', closeModal);
   }
+  if (productId === 'product3') {
+    optionsContainer.querySelectorAll('button[data-mode="metrics"], button[data-mode="both"]').forEach(btn => btn.remove());
+  }
   if (photoInput) {
     photoInput.addEventListener('change', () => {
       const file = photoInput.files && photoInput.files[0];

@@ -11,6 +11,8 @@ import io
 import json
 import os
 import time
+import cv2
+import numpy as np
 
 # --- Imports inside the backend package (Render-friendly) ---
 from .measurement import estimate_measurements
@@ -48,6 +50,22 @@ def load_product_size_chart() -> Dict[str, Any]:
         raise FileNotFoundError(f"Size chart not found at {SIZE_CHART_PATH}")
     with open(SIZE_CHART_PATH, "r", encoding="utf-8") as fh:
         return json.load(fh)
+
+
+def check_image_quality(image_path: str) -> Dict[str, float]:
+    """Compute simple quality metrics and return dict."""
+    img = cv2.imread(image_path)
+    if img is None:
+        raise ValueError("Unable to read uploaded image.")
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    brightness = float(np.mean(gray))
+    contrast = float(np.std(gray))
+    variance_of_laplacian = float(cv2.Laplacian(gray, cv2.CV_64F).var())
+    return {
+        "brightness": brightness,
+        "contrast": contrast,
+        "sharpness": variance_of_laplacian,
+    }
 
 
 # ----- Size chart storage (CSV -> JSON) -----
@@ -184,6 +202,9 @@ def recommend_size_for_product(product_chart: dict, user_measurements: dict) -> 
             if keys:
                 return keys
         if product_type in {"jeans", "trousers", "pants"}:
+            # For bottoms, prioritize waist as the deciding factor; ignore hips/inseam if waist is present.
+            if user_measurements.get("waist_cm") is not None:
+                return ["waist_cm"]
             return ["waist_cm", "hips_cm", "inseam_cm"]
         if product_type in {"dress", "skirt"}:
             return ["bust_cm", "waist_cm", "hips_cm"]
@@ -494,6 +515,10 @@ def derive_body_profile(measurements: dict, user_height_cm: Optional[int]):
         if scaled:
             profile["chest"] = float(scaled * PHOTO_WIDTH_TO_CM_MULTIPLIER)
 
+    # If waist is wildly higher than chest, clamp to a reasonable proportion to avoid photo inflation.
+    if "waist" in profile and "chest" in profile and profile["waist"] > profile["chest"] * 1.1:
+        profile["waist"] = profile["chest"] * 0.9
+
     return profile
 
 
@@ -572,6 +597,18 @@ async def fit_assist(
             raise HTTPException(status_code=400, detail="Photo upload is required for this option.")
         saved_path = await save_upload_file(file)
         saved_name = os.path.basename(saved_path)
+        # Lightweight quality gate: reject dark/low-contrast/blurred images.
+        quality = check_image_quality(saved_path)
+        if quality["brightness"] < 40 or quality["contrast"] < 15 or quality["sharpness"] < 60:
+            raise HTTPException(
+                status_code=400,
+                detail="Photo too dark/blurred — please retake in better light.",
+                headers={
+                    "X-Image-Brightness": str(round(quality["brightness"], 2)),
+                    "X-Image-Contrast": str(round(quality["contrast"], 2)),
+                    "X-Image-Sharpness": str(round(quality["sharpness"], 2)),
+                },
+            )
         try:
             # Pass height/weight if provided for more accurate ML scaling
             photo_measurements = estimate_measurements(

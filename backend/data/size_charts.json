@@ -22,8 +22,11 @@
     "product_type": "hoodie",
     "fit_type": "oversized",
     "sizes": [
-      { "label": "S", "chest_cm": 100, "bust_cm": 96, "waist_cm": 80, "hips_cm": 94, "shoulder_cm": 45, "sleeve_cm": 22, "length_cm": 70 },
-      { "label": "M", "chest_cm": 108, "bust_cm": 102, "waist_cm": 86, "hips_cm": 100, "shoulder_cm": 47, "sleeve_cm": 23, "length_cm": 72 }
+      { "label": "S", "chest_cm": 99, "shoulder_cm": 43.4, "sleeve_cm": 18.8, "length_cm": 71 },
+      { "label": "M", "chest_cm": 104, "shoulder_cm": 44.7, "sleeve_cm": 20, "length_cm": 72 },
+      { "label": "L", "chest_cm": 112, "shoulder_cm": 46, "sleeve_cm": 21, "length_cm": 73.5 },
+      { "label": "XL", "chest_cm": 120, "shoulder_cm": 48, "sleeve_cm": 22.5, "length_cm": 75 },
+      { "label": "XXL", "chest_cm": 128, "shoulder_cm": 50, "sleeve_cm": 25.4, "length_cm": 76.5 }
     ]
   },
   "JEAN_SKINNY_BLACK": {
@@ -33,8 +36,12 @@
     "product_type": "jeans",
     "fit_type": "slim",
     "sizes": [
-      { "label": "26", "bust_cm": 86, "waist_cm": 68, "hips_cm": 92, "length_cm": 96, "inseam_cm": 72 },
-      { "label": "28", "bust_cm": 90, "waist_cm": 72, "hips_cm": 96, "length_cm": 98, "inseam_cm": 74 }
+      { "label": "EU 38", "waist_cm": 76, "hips_cm": 92, "length_cm": 102, "inseam_cm": 78 },
+      { "label": "EU 40", "waist_cm": 80, "hips_cm": 96, "length_cm": 103, "inseam_cm": 79 },
+      { "label": "EU 42", "waist_cm": 84, "hips_cm": 100, "length_cm": 104, "inseam_cm": 80 },
+      { "label": "EU 44", "waist_cm": 88, "hips_cm": 104, "length_cm": 105, "inseam_cm": 81 },
+      { "label": "EU 46", "waist_cm": 92, "hips_cm": 108, "length_cm": 106, "inseam_cm": 82 },
+      { "label": "EU 48", "waist_cm": 98, "hips_cm": 114, "length_cm": 107, "inseam_cm": 83 }
     ]
   },
   "DRESS_SUMMER_FLORAL": {
@@ -44,8 +51,13 @@
     "product_type": "dress",
     "fit_type": "true_to_size",
     "sizes": [
-      { "label": "S", "bust_cm": 88, "waist_cm": 66, "hips_cm": 92, "length_cm": 90, "notes": "Above-knee dress" },
-      { "label": "M", "bust_cm": 94, "waist_cm": 72, "hips_cm": 98, "length_cm": 92, "notes": "Above-knee dress" }
+      { "label": "XS", "bust_cm": [86, 91], "waist_cm": 71, "hips_cm": 86, "length_cm": 89, "notes": "Above-knee dress" },
+      { "label": "S", "bust_cm": [91, 97], "waist_cm": 76, "hips_cm": 91, "length_cm": 90, "notes": "Above-knee dress" },
+      { "label": "M", "bust_cm": [97, 102], "waist_cm": 81, "hips_cm": 97, "length_cm": 92, "notes": "Above-knee dress" },
+      { "label": "L", "bust_cm": [102, 107], "waist_cm": 86, "hips_cm": 102, "length_cm": 93, "notes": "Above-knee dress" },
+      { "label": "XL", "bust_cm": [107, 112], "waist_cm": 91, "hips_cm": 107, "length_cm": 94, "notes": "Above-knee dress" },
+      { "label": "XXL", "bust_cm": [112, 117], "waist_cm": 97, "hips_cm": 112, "length_cm": 95, "notes": "Above-knee dress" },
+      { "label": "XXXL", "bust_cm": [117, 117], "waist_cm": 102, "hips_cm": 117, "length_cm": 96, "notes": "Above-knee dress" }
     ]
   }
 }
